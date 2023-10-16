@@ -1,0 +1,17 @@
+{
+  "@@locale": "uk",
+  "discountAmount": "Знижка:",
+  "cardNo": "Карта №:",
+  "settings": "Налаштування",
+  "lightDarkMode": "Світла/темна тема",  
+  "language": "Мова",
+
+  "pageSettingsInputLanguage": "{locale, select, en {English} uk {Ukranian} other {-}}",
+  "@pageSettingsInputLanguage": {
+    "placeholders": {
+      "locale": {
+        "type": "String"
+      }
+    }
+  }
+}
