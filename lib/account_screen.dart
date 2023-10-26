@@ -1,4 +1,7 @@
+import 'package:cafe_app/model/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class AccauntScreen extends StatefulWidget {
   const AccauntScreen({super.key});
@@ -12,79 +15,105 @@ class AccauntScreen extends StatefulWidget {
 }
 
 class _AccauntScreenState extends State<AccauntScreen> {
-  bool _isLightMode = true;
-  String _selectedItem = 'UA';
-  final List<String> _items = ['UA', 'EN'];
-
-  void _toggleTheme() {
-    setState(() {
-      _isLightMode = !_isLightMode;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    var translate = AppLocalizations.of(context)!;
+    var selectedLocale = Localizations.localeOf(context).toString();
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircleAvatar(radius: 40),
+              const CircleAvatar(radius: 40),
               Column(
                 children: [
-                  Text(AccauntScreen.name),
-                  Text('Discount Amount: ${AccauntScreen.discount}%'),
+                  Text(
+                    AccauntScreen.name,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  Text(
+                    '${translate.discountAmount} ${AccauntScreen.discount}%',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ],
               ),
             ],
           ),
           const SizedBox(height: 20),
-          const Text('Card №:'),
-          Text(AccauntScreen.cardNo.toString()),
+          Text(
+            translate.cardNo,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          Text(
+            AccauntScreen.cardNo.toString(),
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
           const SizedBox(height: 20),
-          const Row(
+          Row(
             children: [
-              Expanded(child: Divider()),
-              Text('Settings'),
-              Expanded(
+              const Expanded(child: Divider()),
+              Text(
+                translate.settings,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              const Expanded(
                 child: Divider(),
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Light/dark mode'),
-              Switch.adaptive(
-                value: _isLightMode,
-                onChanged: (value) => _toggleTheme(),
-              ),
-            ],
+          // todo bloc with language + light dark mode
+          Consumer<SettingsModel>(
+            builder: (context, settingsModel, child) => Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      translate.lightDarkMode,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    Switch.adaptive(
+                      value: settingsModel.isLightTheme,
+                      onChanged: (value) {
+                        settingsModel.changeTheme(value);
+                      },
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Language',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    DropdownButton(
+                      value: selectedLocale,
+                      items: [
+                        DropdownMenuItem(
+                          value: "en",
+                          child: Text(translate.pageSettingsInputLanguage("en")),
+                        ),
+                        DropdownMenuItem(
+                          value: "uk",
+                          child: Text(translate.pageSettingsInputLanguage("uk")),
+                        )
+                      ],
+                      onChanged: (String? value) {
+                        if (value != null) {
+                          settingsModel.set(Locale(value));
+                        }
+                      },
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Language'),
-              DropdownButton(
-                  value: _selectedItem,
-                  items: _items.map((String item) {
-                    return DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(item),
-                    );
-                  }).toList(),
-                  onChanged: (String? selectedItem) {
-                    if (selectedItem != null) {
-                      setState(() {
-                        _selectedItem = selectedItem;
-                      });
-                    }
-                  })
-            ],
-          )
         ],
       ),
     );

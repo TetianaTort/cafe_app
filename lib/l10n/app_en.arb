@@ -1,0 +1,31 @@
+{
+  "@@locale": "en",
+  "discountAmount": "Discount Amount:",
+  "@discountAmount": {
+    "description": "Account settings -> % of discount"
+  },
+  "cardNo": "Card №:",
+  "@cardNo": {
+    "description": "number of discount card"
+  },
+  "settings": "Settings",
+  "@Settings": {
+    "description": "settings in account"
+  },
+  "lightDarkMode": "Light/dark mode",
+  "@discountAmount": {
+    "description": "Using with switch to change theme mode"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Change language in app"
+  },
+  "pageSettingsInputLanguage": "{locale, select, en {English} uk {Ukranian} other {-}}",
+  "@pageSettingsInputLanguage": {
+    "placeholders": {
+      "locale": {
+        "type": "String"
+      }
+    }
+  }
+}
