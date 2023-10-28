@@ -3,7 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 //main themes
 
-class CustomTheme {
+enum MyThemeKeys {
+  light,
+  dark,
+}
+
+class CustomThemes {
   static ThemeData get lightTheme {
     var kColorScheme = ColorScheme.fromSeed(
       seedColor: const Color.fromARGB(255, 96, 59, 181),
@@ -69,5 +74,14 @@ class CustomTheme {
         ),
       ),
     );
+  }
+
+  static ThemeData getThemeFromKey(MyThemeKeys themeKey) {
+    switch (themeKey) {
+      case MyThemeKeys.light:
+        return lightTheme;
+      case MyThemeKeys.dark:
+        return darkTheme;
+    }
   }
 }

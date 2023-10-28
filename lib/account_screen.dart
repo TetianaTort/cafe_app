@@ -1,4 +1,5 @@
 import 'package:cafe_app/model/settings.dart';
+import 'package:cafe_app/utils/data_provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -6,17 +7,24 @@ import 'package:provider/provider.dart';
 class AccauntScreen extends StatefulWidget {
   const AccauntScreen({super.key});
 
-  static const int discount = 5;
-  static const int cardNo = 512213204324;
-  static const String name = 'Tetiana';
-
   @override
   State<AccauntScreen> createState() => _AccauntScreenState();
 }
 
 class _AccauntScreenState extends State<AccauntScreen> {
+  void changeTheme(BuildContext buildContext, bool value) {
+    CustomTheme.instanceOf(buildContext)?.changeTheme(value);
+  }
+
+  bool? currentTheme(BuildContext buildContext) {
+    return CustomTheme.instanceOf(context)?.isLight();
+  }
+
   @override
   Widget build(BuildContext context) {
+    const int discount = 5;
+    const int cardNo = 512213204324;
+    const String name = 'Tetiana';
     var translate = AppLocalizations.of(context)!;
     var selectedLocale = Localizations.localeOf(context).toString();
 
@@ -32,11 +40,11 @@ class _AccauntScreenState extends State<AccauntScreen> {
               Column(
                 children: [
                   Text(
-                    AccauntScreen.name,
+                    name,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Text(
-                    '${translate.discountAmount} ${AccauntScreen.discount}%',
+                    '${translate.discountAmount} $discount%',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
@@ -49,7 +57,7 @@ class _AccauntScreenState extends State<AccauntScreen> {
             style: Theme.of(context).textTheme.bodySmall,
           ),
           Text(
-            AccauntScreen.cardNo.toString(),
+            cardNo.toString(),
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           const SizedBox(height: 20),
@@ -65,7 +73,6 @@ class _AccauntScreenState extends State<AccauntScreen> {
               ),
             ],
           ),
-          // todo bloc with language + light dark mode
           Consumer<SettingsModel>(
             builder: (context, settingsModel, child) => Column(
               children: [
@@ -77,9 +84,9 @@ class _AccauntScreenState extends State<AccauntScreen> {
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     Switch.adaptive(
-                      value: settingsModel.isLightTheme,
+                      value: currentTheme(context)!,
                       onChanged: (value) {
-                        settingsModel.changeTheme(value);
+                        changeTheme(context, value);
                       },
                     ),
                   ],
