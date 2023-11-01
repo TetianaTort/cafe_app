@@ -11,14 +11,13 @@ enum MyThemeKeys {
 class CustomThemes {
   static ThemeData get lightTheme {
     var kColorScheme = ColorScheme.fromSeed(
-      seedColor: const Color.fromARGB(255, 96, 59, 181),
+      seedColor: const Color.fromARGB(255, 156, 123, 233),
     );
     return ThemeData().copyWith(
       useMaterial3: true,
       colorScheme: kColorScheme,
       appBarTheme: const AppBarTheme().copyWith(
-        backgroundColor: kColorScheme.onPrimaryContainer,
-        foregroundColor: kColorScheme.primaryContainer,
+        backgroundColor: kColorScheme.inversePrimary,
       ),
       textTheme: GoogleFonts.latoTextTheme().copyWith(
         titleLarge: const TextStyle(

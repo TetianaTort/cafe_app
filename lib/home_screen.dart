@@ -1,4 +1,5 @@
-import 'package:cafe_app/account_screen.dart';
+import 'package:cafe_app/screens/account_screen.dart';
+import 'package:cafe_app/screens/product_list.dart';
 import 'package:flutter/material.dart';
 
 class HomeNavigation extends StatefulWidget {
@@ -10,6 +11,7 @@ class HomeNavigation extends StatefulWidget {
 
 class _HomeNavigationState extends State<HomeNavigation> {
   int _selectedTab = 0;
+  int _productsInCart = 0;
   _changeTab(int index) {
     setState(() {
       _selectedTab = index;
@@ -18,15 +20,36 @@ class _HomeNavigationState extends State<HomeNavigation> {
 
   final List _pages = const [
     HomeScreen(),
-    Center(
-      child: Text('Order'),
-    ),
+    ProductList(),
     AccauntScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(actions: [
+        SizedBox(
+          height: 50,
+          child: Stack(
+            children: [
+              _productsInCart != 0
+                  ? Positioned(
+                      top: 0,
+                      right: 7,
+                      child: CircleAvatar(
+                        maxRadius: 10,
+                        child: Text(
+                          _productsInCart.toString(),
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+              const Center(child: Icon(Icons.shopping_cart_outlined)),
+              const SizedBox(width: 40)
+            ],
+          ),
+        )
+      ]),
       body: SafeArea(
         child: _pages[_selectedTab],
       ),
@@ -37,7 +60,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
         unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.short_text_rounded), label: "Order"),
+          BottomNavigationBarItem(icon: Icon(Icons.short_text_rounded), label: 'Products'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
         ],
       ),
@@ -86,7 +109,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
