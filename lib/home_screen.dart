@@ -1,5 +1,6 @@
 import 'package:cafe_app/screens/account_screen.dart';
 import 'package:cafe_app/screens/product_list.dart';
+import 'package:cafe_app/utils/widgets/custom_cart_icon.dart';
 import 'package:flutter/material.dart';
 
 class HomeNavigation extends StatefulWidget {
@@ -11,7 +12,7 @@ class HomeNavigation extends StatefulWidget {
 
 class _HomeNavigationState extends State<HomeNavigation> {
   int _selectedTab = 0;
-  int _productsInCart = 0;
+  // int _productsInCart = 0;
   _changeTab(int index) {
     setState(() {
       _selectedTab = index;
@@ -27,29 +28,11 @@ class _HomeNavigationState extends State<HomeNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: [
-        SizedBox(
-          height: 50,
-          child: Stack(
-            children: [
-              _productsInCart != 0
-                  ? Positioned(
-                      top: 0,
-                      right: 7,
-                      child: CircleAvatar(
-                        maxRadius: 10,
-                        child: Text(
-                          _productsInCart.toString(),
-                        ),
-                      ),
-                    )
-                  : const SizedBox(),
-              const Center(child: Icon(Icons.shopping_cart_outlined)),
-              const SizedBox(width: 40)
-            ],
-          ),
-        )
-      ]),
+      appBar: AppBar(
+        actions: const [
+          CustomCart(),
+        ],
+      ),
       body: SafeArea(
         child: _pages[_selectedTab],
       ),
