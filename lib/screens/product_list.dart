@@ -1,6 +1,8 @@
 import 'package:cafe_app/data/data.dart';
 import 'package:cafe_app/model/product.dart';
+import 'package:cafe_app/utils/widgets/custom_cart_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductList extends StatelessWidget {
   const ProductList({super.key});
@@ -42,25 +44,28 @@ class ProductItem extends StatelessWidget {
         ),
         const SizedBox(width: 20),
         Expanded(child: Text(product.name)),
-        const CounterWidget(),
+        CounterWidget(product: product),
       ],
     );
   }
 }
 
-class CounterWidget extends StatefulWidget {
-  const CounterWidget({super.key});
+class CounterWidget extends ConsumerStatefulWidget {
+  const CounterWidget({super.key, required this.product});
+  final Product product;
 
   @override
-  State<CounterWidget> createState() => _CounterWidgetState();
+  ConsumerState<CounterWidget> createState() => _CounterWidgetState();
 }
 
-class _CounterWidgetState extends State<CounterWidget> {
+class _CounterWidgetState extends ConsumerState<CounterWidget> {
   int count = 0;
 
   increement() {
     setState(() {
       count++;
+      ref.read(cartCountProvider.notifier).state++;
+      // print(ref.read(cartCountProvider));
     });
   }
 
@@ -68,12 +73,10 @@ class _CounterWidgetState extends State<CounterWidget> {
     if (count > 0) {
       setState(() {
         count--;
+        ref.read(cartCountProvider.notifier).state--;
       });
     }
   }
-//create a cart
-//add items
-//send on main screen to draw a counter
 
   @override
   Widget build(BuildContext context) {
