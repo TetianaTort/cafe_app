@@ -3,17 +3,21 @@ import 'package:google_fonts/google_fonts.dart';
 
 //main themes
 
-class CustomTheme {
+enum MyThemeKeys {
+  light,
+  dark,
+}
+
+class CustomThemes {
   static ThemeData get lightTheme {
     var kColorScheme = ColorScheme.fromSeed(
-      seedColor: const Color.fromARGB(255, 96, 59, 181),
+      seedColor: const Color.fromARGB(255, 156, 123, 233),
     );
     return ThemeData().copyWith(
       useMaterial3: true,
       colorScheme: kColorScheme,
       appBarTheme: const AppBarTheme().copyWith(
-        backgroundColor: kColorScheme.onPrimaryContainer,
-        foregroundColor: kColorScheme.primaryContainer,
+        backgroundColor: kColorScheme.inversePrimary,
       ),
       textTheme: GoogleFonts.latoTextTheme().copyWith(
         titleLarge: const TextStyle(
@@ -69,5 +73,14 @@ class CustomTheme {
         ),
       ),
     );
+  }
+
+  static ThemeData getThemeFromKey(MyThemeKeys themeKey) {
+    switch (themeKey) {
+      case MyThemeKeys.light:
+        return lightTheme;
+      case MyThemeKeys.dark:
+        return darkTheme;
+    }
   }
 }
